@@ -120,6 +120,7 @@ function TotalesRz()
     }
 
 
+// Esto es una prueba la aplicación de anuncios
 // GetLink( "linkToUpdate" ) ó  GetLink( "linkToDelete" )  
 function GetLink( sTipo )
     {
