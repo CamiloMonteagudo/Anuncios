@@ -1,0 +1,31 @@
+{% extends "frame.html" %}
+
+{% block datos %}
+{% set Names = ['Sumarios','Productos','Por Vender','Ventas','Por Pagar','Pagos']%}
+{% set Pages = ['sumarios','productos','por-vender','ventas','por-pagar','pagos']%}
+{% set NowPage = Names[dt.tab]%}
+
+<div id="mnu-btn" class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{NowPage}} &nbsp; <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    {% for name in Names %}
+      {% if loop.index0 != dt.tab %}
+      <li role="presentation"><a href="../../{{Pages[loop.index0]}}">{{name}}</a></li>
+      {% endif %}  
+    {% endfor %}
+  </ul>
+</div>
+
+<ul id="mnu-tab" class="nav nav-tabs">
+  {% for name in Names %}
+    {% if loop.index0 == dt.tab %}
+      <li role="presentation" class="active"><a href="#">{{name}}</a></li>
+    {% else %}
+      <li role="presentation"><a href="../../{{Pages[loop.index0]}}">{{name}}</a></li>
+    {% endif %}  
+  {% endfor %}
+</ul>
+
+{% block tab_page %}{% endblock %}
+
+{% endblock %}

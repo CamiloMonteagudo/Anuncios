@@ -1,0 +1,121 @@
+{% extends "frame.html" %}
+{% block title %}Sumario del Viaje{% endblock %}
+
+{% block datos %}
+  <div class="monto" style="margin: 8px;">{{vj.Title}}</div>
+  <div class="well"> 
+    <div class="row">
+      <div class="col-xs-6 col-sm-4">
+        <ul class="lbval"><li>Presupuesto:</li><li>{{"{:.2f}".format(vj.PresupCuc)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4">
+        <ul class="lbval"><li>Utilizado:</li><li>{{"{:.2f}".format(vj.MontoInvers)}} cuc</li></ul>    
+      </div>
+      <div class="col-sm-4" >
+        <ul class="lbval"><li>Sobrante:</li><li>{{"{:.2f}".format(vj.Sobrante)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4">
+        <ul class="lbval"><li>Gastos:</li><li>{{"{:.2f}".format(vj.GastosCUC)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4">
+        <ul class="lbval"><li>Compras:</li><li>{{"{:.2f}".format(vj.CompasCUC)}} cuc</li></ul>    
+      </div>
+      <div class="col-sm-4" >
+        <ul class="lbval"><li>Indice Gasto:</li><li>{{"{:.2f}".format(vj.IdxGastos)}}</li></ul>    
+      </div>
+    </div>
+  </div>
+  
+  <div class="monto">MONTO DE LA INVERSIÓN: {{"{:.2f}".format(vj.MontoInvers)}} cuc</div>
+  <div class="well"> 
+    <div class="title">PRECIOS:</div>
+    <div class="row">
+      <div class="col-xs-6 col-md-3 col-sm-6">
+        <ul class="lbval"><li>Monto:</li><li>{{"{:.2f}".format(vj.MontoPrecios)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-md-3 col-sm-6">
+        <ul class="lbval"><li>Ganancia:</li><li>{{"{:.2f}".format(vj.GanancPrecios)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-md-3 col-sm-6" >
+        <ul class="lbval"><li>Indice Gan.:</li><li>{{"{:.1f}".format(vj.IdxGananc)}}</li></ul>    
+      </div>
+      <div class="col-xs-6 col-md-3 col-sm-6" >
+        <ul class="lbval"><li>Indice Precio:</li><li>{{"{:.1f}".format(vj.IdxPrec)}}</li></ul>    
+      </div>
+    </div>
+  </div>
+  
+  <div class="well"> 
+    <div class="title">CONSUMO:</div>
+    <div class="row">
+      <div class="col-xs-6 col-md-3 col-sm-6">
+        <ul class="lbval"><li>Costo:</li><li>{{"{:.2f}".format(vj.MontoConsumo)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-md-3 col-sm-6">
+        <ul class="lbval"><li>Ganancia:</li><li>{{"{:.2f}".format(vj.GanacConsumo)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-md-3 col-sm-6" >
+        <ul class="lbval"><li>Costo Recup.:</li><li>{{"{:.2f}".format(vj.MontoConsumoRecp)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-md-3 col-sm-6" >
+        <ul class="lbval"><li>Monto:</li><li>{{"{:.2f}".format(vj.ConsumoMonto)}} cuc</li></ul>    
+      </div>
+    </div>
+  </div>
+  
+  <div class="well"> 
+    <div class="title">VENTAS:</div>
+    <div class="row">
+      <div class="col-xs-6 col-sm-4">
+        <ul class="lbval"><li>Monto:</li><li>{{"{:.2f}".format(vj.MontoVentas)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4">
+        <ul class="lbval"><li>Ganancia:</li><li>{{"{:.2f}".format(vj.GanacVentas)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-12 col-sm-4" >
+        <ul class="lbval"><li>Ganac. Total:</li><li>{{"{:.2f}".format(vj.GananciaVenta)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4 col-sm-offset-4" >
+        <ul class="lbval"><li>Por Vender:</li><li>{{"{:.1f}".format(vj.NumSinVender)}}</li></ul>  
+      </div>
+      <div class="col-xs-6 col-sm-4" >
+        <ul class="lbval"><li>Monto:</li><li>{{"{:.2f}".format(vj.MontoSinVender)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4 col-sm-offset-4" >
+        <ul class="lbval"><li>Cambios Prec.:</li><li>{{"{:.1f}".format(vj.NumChgPrecio)}}</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4" >
+        <ul class="lbval"><li>Monto:</li><li>{{"{:.2f}".format(vj.MontoChgPrecio)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4 col-sm-offset-4" >
+        <ul class="lbval"><li>Devoluciones:</li><li>{{"{:.1f}".format(vj.NumDevoluc)}}</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4" >
+        <ul class="lbval"><li>Monto:</li><li>{{"{:.2f}".format(vj.MontoDevoluc)}} cuc</li></ul>    
+      </div>
+    </div>
+  </div>
+  
+  <div class="monto">MONTO TOTAL COBRADO: {{"{:.2f}".format(vj.MontoCobros)}} cuc</div>
+  <div class="well"> 
+    <div class="title">PRECIOS:</div>
+    <div class="row">
+      <div class="col-xs-10 col-sm-4">
+        <ul class="lbval"><li>Ganancia:</li><li>{{"{:.2f}".format(vj.GanancPagada)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4">
+        <ul class="lbval"><li>Sin Consumo:</li><li>{{"{:.2f}".format(vj.GanancSinConsumo)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4" >
+        <ul class="lbval"><li>Con Consumo:</li><li>4{{"{:.2f}".format(vj.GanancConConsumo)}} cuc</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4 col-sm-offset-4" >
+        <ul class="lbval" title="Número de Items que faltan por cobrar"><li>Por Cobrar:</li><li>{{"{:.1f}".format(vj.NumSinPagar)}}</li></ul>    
+      </div>
+      <div class="col-xs-6 col-sm-4" >
+        <ul class="lbval" title="Monto total de todos los item que faltan por cobrar"><li>Monto:</li><li>{{"{:.2f}".format(vj.MontoSinPagar)}} cuc</li></ul>    
+      </div>
+    </div>
+  </div>
+    
+{% endblock %}

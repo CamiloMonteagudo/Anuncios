@@ -1,0 +1,191 @@
+{% extends "frame+tab.html" %}
+{% block title %}Listado de Items sin vender{% endblock %}
+
+{% block tab_page %}
+<form method="post" id="form-datos" class="toolbar">
+  <label for="filter">Buscar:
+    <input id="filter" name="filter" value="{{dt.filter}}" placeholder="name/viaje/prod/venta">
+  </label>
+
+  <button type="submit" class="btn btn-default">Buscar</button>
+
+  <input type="hidden" id="sort-attr"  name="sort-attr5" value="{{dt.sort_attr}}" >
+  <input type="hidden" id="page-now"   name="page-now5"  value="{{dt.page_now}}"  >
+  <input type="hidden" id="page-items" name="page-items" value="{{dt.page_items}}" >
+</form>
+
+{% if dt.prods.__len__()>0 %}
+<div class="table-responsive">
+  <table class="table table-bordered table-list">
+    <thead>
+      <tr>
+        <th {{dt.attrs_col("num")       |safe}}>#</th>
+        <th {{dt.attrs_col("VjAbr")     |safe}}>Viaje</th> 
+        <th {{dt.attrs_col("idProd")    |safe}}>ID</th> 
+        <th {{dt.attrs_col("sItem")     |safe}}>Producto</th>
+        <th {{dt.attrs_col("resto")     |safe}}>&nbsp;&nbsp;Cant</th>
+        <th {{dt.attrs_col("precCosto") |safe}}>Costo</th>
+        <th {{dt.attrs_col("precRecp")  |safe}}>Recuper.</th>
+        <th {{dt.attrs_col("precGanc")  |safe}}>Gananc.</th>
+        <th {{dt.attrs_col("precio")    |safe}}>Precio</th>
+        <th {{dt.attrs_col("monto")     |safe}}>Monto</th>
+        <th {{dt.attrs_col("montoCuc")  |safe}}>En CUP</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pd in dt.prods %}
+      <tr id-vj="{{pd.iVj}}" }" >
+        <td>{{pd.num}}</td>
+        <td>{{pd.VjAbr|safe}}</td>
+        <td>{{pd.idProd}}</td>
+        <td class="pname">{{pd.sItem|safe}}</td>
+        <td>{{pd.resto}} | {{pd.count}}</td>
+        <td>{{"%.2f"|format(pd.precCosto)}} {{"%3s"|format(pd.sMnd)}}</td>
+        <td>{{"%.2f"|format(pd.precRecp) }} {{"%3s"|format(pd.sMnd)}}</td>
+        <td>{{"%.2f"|format(pd.precGanc) }} {{"%3s"|format(pd.sMnd)}}</td>
+        <td>{{"%.2f"|format(pd.precio)   }} {{"%3s"|format(pd.sMnd)}}</td>
+        <td>{{"%.2f"|format(pd.monto)    }} {{"%3s"|format(pd.sMnd)}}</td>
+        <td>{{"%.2f"|format(pd.montoCuc) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <table class="table table-bordered table-totals">
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{dt.foot.desc}}</td>
+        <td>{{dt.foot.resto}}</td>
+        <td>{{"%.2f"|format(dt.foot.value)}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{"%.2f"|format(dt.foot.montoCuc)}}</td>
+      </tr>
+    </tbody>
+  </table>
+  
+</div>
+
+{% if dt.pages.__len__() >1 %}
+<nav>
+  <ul id="pages" class="pagination">
+    <li><a href="#" aria-label="Inicio">&laquo;</a></li>
+    {% for pg in dt.pages %}
+      <li {{pg.css|safe}}><a href="#">{{pg.num}}</a></li>
+    {% endfor %}
+    <li><a href="#" aria-label="Fin">&raquo;</a></li>
+  </ul>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="alert alert-info" role="alert">
+  No de encontro ningún pago que cumpla las condiciones dadas
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script type=text/javascript>
+  $(function() 
+    {
+    TotalesRz();
+    $(window).resize( TotalesRz );
+        
+    $('.main-frame .table-list thead tr th').bind('click', function() 
+      {
+      var css       = $(this).attr("class");  
+      var sort_attr = $(this).attr("name-col");  
+      
+      if( css=='asc' ) sort_attr = "-" + sort_attr
+      
+      $("#sort-attr").val( sort_attr );
+      
+      $("#form-datos").submit();
+      });
+        
+    $('#mnu-vends ul a').bind('click', function() 
+      {
+      var name = $(this).text();  
+      
+      $("#vendedor").val(name)
+      $('#mnu-vends #name').text(name);
+      $("#form-datos").submit();
+      });
+        
+    $('#pages a').bind('click', function()
+      {
+      var num = +this.innerText;
+      if( !num ) return;
+        
+      $("#page-now").val( num );
+      $("#form-datos").submit();
+      });
+                                                  
+    $('#pages li:first-child').bind('click', function()
+      {
+      $("#page-now").val(1);
+      $("#form-datos").submit();
+      });
+                                                  
+    $('#pages li:last-child').bind('click', function()
+      {
+      $("#page-now").val(100000);
+      $("#form-datos").submit();
+      });
+        
+      Mnu = new RowMenu( '.main-frame .table-list tbody tr' );
+     
+      Mnu.AddItem( "Viaje"        , onFilterViaje );
+      Mnu.AddItem( "Producto"     , onFilterProd );
+      Mnu.AddItem( "Vender"       , onVender );
+      Mnu.AddItem( "&nbsp;X&nbsp;", onClearFilter );
+
+      });
+
+  function GetDatos($row)
+    {
+    var sViaje  = $row.children().eq(1).text();
+    var idProd  = $row.children().eq(2).text();
+    var IdViaje = $row.attr("id-vj");  
+
+    return {viaje:sViaje, prod:idProd, idVj:IdViaje};  
+    }
+
+  function onFilterViaje( $row )
+    {
+    var dat = GetDatos( $row );
+
+    $("#filter").val( "/" + dat.viaje  );
+    $("#form-datos").submit();
+    }
+      
+  function onFilterProd( $row )
+    {
+    var dat = GetDatos( $row );
+
+    $("#filter").val( "/" + dat.viaje + "/" + dat.prod );
+    $("#form-datos").submit();
+    }
+      
+  function onVender($row)
+    {
+    var dat = GetDatos($row);
+
+    alert( "OPCION NO IMPLEMENTADA\r\nVender el producto " + dat.prod + " del viaje " + dat.idVj );
+    }
+      
+  function onClearFilter( $row )
+    {
+    $("#filter").val( "" );
+    $("#form-datos").submit();
+    }
+
+</script>
+{% endblock %}

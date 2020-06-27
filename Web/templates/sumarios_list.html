@@ -1,0 +1,134 @@
+{% extends "frame+tab.html" %}
+{% block title %}Listado de Viajes Realizados{% endblock %}
+
+{% block tab_page %}
+<form method="post" id="form-datos" class="toolbar">
+  <label for="filter">Buscar:
+    <input id="filter" name="filter1" value="{{dt.filter}}" placeholder="palabra"></label>
+  <label class="chk" style="width:auto;"> 
+    <input type="checkbox" id="no-consumo" name="no-consumo" {% if dt.no_consumo %} checked="checked" {% endif %}>Ganancia sin consumo
+  </label>
+
+  <button type="submit" class="btn btn-default">Buscar</button>
+
+  <input type="hidden" id="sort-attr1" name="sort-attr"  value="{{dt.sort_attr}}" >
+</form>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-list">
+    <thead>
+      <tr>
+        <th {{dt.attrs_col("Code")           |safe}}>#</th>
+        <th {{dt.attrs_col("Title")          |safe}}>Viaje</th>
+        <th {{dt.attrs_col("GastosCUC")      |safe}}>Gastos</th>
+        <th {{dt.attrs_col("CompasCUC")      |safe}}>Compras</th>
+        <th {{dt.attrs_col("RecupIdx")       |safe}}>Rate<br />Gasto</th>
+        <th {{dt.attrs_col("MontoInvers")    |safe}}>Inversión</th>
+        <th {{dt.attrs_col("MontoConsumo")   |safe}}>Consumo</th>
+        <th {{dt.attrs_col("PrecioIndex")    |safe}}>Rate<br />Prec</th>
+        <th {{dt.attrs_col("MontoSinVender") |safe}}>Por<br />Vender</th>
+        <th {{dt.attrs_col("MontoSinPagar")  |safe}}>Por<br />Pagar</th>
+        <th {{dt.attrs_col("MontoCobros")    |safe}}>Cobrado<br />Gasto</th>
+        <th {{dt.attrs_col("Ganancia")       |safe}}>Ganancia</th>
+        <th {{dt.attrs_col("GananciaIndex")  |safe}}>Rate<br />Gan.</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vj in dt.sumarios %}
+      <tr id-vj="{{vj.iVj}}" vj-abr="{{vj.VjAbr}}">
+        <td>{{vj.Code}}</td>
+        <td class="pname">{{vj.Title|safe}}</td>
+        <td>{{"%.2f"|format(vj.GastosCUC)}}</td>
+        <td>{{"%.2f"|format(vj.CompasCUC)}}</td>
+        <td>{{"%.2f"|format(vj.RecupIdx)}}</td>
+        <td>{{"%.2f"|format(vj.MontoInvers)}}</td>
+        <td>{{"%.2f"|format(vj.MontoConsumo)}}</td>
+        <td>{{"%.2f"|format(vj.PrecioIndex)}}</td>
+        <td>{{"%.2f"|format(vj.MontoSinVender)}}</td>
+        <td>{{"%.2f"|format(vj.MontoSinPagar)}}</td>
+        <td>{{"%.2f"|format(vj.MontoCobros)}}</td>
+        <td {% if vj.Ganancia<0 %} class="rojo" {% elif vj.GananciaIndex>=1.5 %} class="verde" {% endif %}>
+          {{"%.2f"|format(vj.Ganancia)}}
+        </td>
+        <td {% if vj.GananciaIndex<1 %} class="rojo" {% elif vj.GananciaIndex>=1.5 %} class="verde" {% endif %}>
+          {{"%.2f"|format(vj.GananciaIndex)}}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <table class="table table-bordered table-totals">
+    <tbody>
+      <tr>
+        <td></td>
+        <td>Totales:</td>
+        <td>{{"%.2f"|format(dt.sums.GastosCUC)}}</td>
+        <td>{{"%.2f"|format(dt.sums.CompasCUC)}}</td>
+        <td>{{"%.2f"|format(dt.sums.RecupIdx)}}</td>
+        <td>{{"%.2f"|format(dt.sums.MontoInvers)}}</td>
+        <td>{{"%.2f"|format(dt.sums.MontoConsumo)}}</td>
+        <td>{{"%.2f"|format(dt.sums.PrecioIndex)}}</td>
+        <td>{{"%.2f"|format(dt.sums.MontoSinVender)}}</td>
+        <td>{{"%.2f"|format(dt.sums.MontoSinPagar)}}</td>
+        <td>{{"%.2f"|format(dt.sums.MontoCobros)}}</td>
+        <td>{{"%.2f"|format(dt.sums.Ganancia)}}</td>
+        <td>{{"%.2f"|format(dt.sums.GananciaIndex)}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type=text/javascript>
+  $(function() 
+    {
+    TotalesRz();
+    $(window).resize( TotalesRz );
+      
+    $('.main-frame .table-list thead tr th').bind('click', function() 
+      {
+      var css       = $(this).attr("class");  
+      var sort_attr = $(this).attr("name-col");  
+      
+      if( css=='asc' ) sort_attr = "-" + sort_attr
+      
+      $("#sort-attr").val( sort_attr );
+      
+      $("#form-datos").submit();
+      });
+      Mnu = new RowMenu( '.main-frame .table-list tbody tr' );
+     
+      Mnu.AddItem( "Viaje"        , onFilterViaje );
+      Mnu.AddItem( "Detalles"     , onViajeDetalles );
+      Mnu.AddItem( "&nbsp;X&nbsp;", onClearFilter );
+
+      });
+
+  function onFilterViaje( $row ) 
+    { 
+    var sViaje = $row.attr("vj-abr");  
+
+    $("#filter").val( "/" + sViaje );
+    $("#form-datos").submit();
+    }
+      
+  function onViajeDetalles($row)
+    {
+    var num_viaje = +$row.attr("id-vj");  
+      
+    window.location = "/sumario/" + num_viaje;  
+    }
+      
+  function onClearFilter( $row )
+    {
+    $("#filter").val( "" );
+    $("#form-datos").submit();
+    }
+
+
+</script>
+{% endblock %}

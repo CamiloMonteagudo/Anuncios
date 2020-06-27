@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Untitled Document</title>
+    <!-- Bootstrap -->
+	<link href="../static/bootstrap.css" rel="stylesheet">
+	<link href="../static/styles.css" rel="stylesheet">
+
+  </head>
+  <body>
+	<div class="container main-frame">
+    
+    <div id="mnu-btn" class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sumarios &nbsp; <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li role="presentation"><a href="#">Productos</a></li>
+        <li role="presentation"><a href="#">Ventas</a></li>
+        <li role="presentation"><a href="#">Pagos</a></li>
+        <li role="presentation"><a href="#">Por Vender</a></li>
+        <li role="presentation"><a href="#">Por Pagar</a></li>
+      </ul>
+    </div>
+    
+    <ul id="mnu-tab" class="nav nav-tabs">
+      <li role="presentation" class="active"><a href="#">Sumarios</a></li>
+      <li role="presentation"><a href="#">Pruductos</a></li>
+      <li role="presentation"><a href="#">Ventas</a></li>
+      <li role="presentation"><a href="#">Pagos</a></li> 
+      <li role="presentation"><a href="#">Por Vender</a></li>
+      <li role="presentation"><a href="#">Por Pagar</a></li>
+    </ul>
+    
+    <form method="post" class="toolbar" id="form-datos" >
+      <label for="filter">Buscar:
+        <input id="filter" name="filter" placeholder="palabra">
+      </label>
+      
+      <label id="mnu-vends" >Vendedor:
+          </label><div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                <span id="name">Todos</span> &nbsp;<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Todos</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Consumo</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Sonia</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Camilo</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Elenis</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Odys</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Maricela</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Marta</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Miate</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Evelin</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Mamita</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Martica</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Vivian</a></li>
+            </ul>
+        </div>
+      </label>
+      
+      <label class="chk"> <input name="coment" type="checkbox" checked="checked" >Comentarios </label>
+      <label class="chk"> <input type="checkbox" name="Gananc-item">Ganancia por Item</label>
+      <button type="submit" class="btn btn-default">Buscar</button>
+      <input type="hidden" id="vendedor"   name="vendedor" value="Todos"  >
+      <input type="hidden" id="sort-idx"   name="sort-idx"   >
+      <input type="hidden" id="page-now"   name="page-now" value="30"  >
+      <input type="hidden" id="page-items" name="page-items" value="30" >
+    </form>
+    
+    <div class="table-responsive">
+    <table class="table table-bordered table-list">
+        <thead>
+            <tr>
+                <th hrd-i="1">#</th>
+                <th hrd-i="2" class="asc">Viaje</th>
+                <th hrd-i="3" class="desc">Gastos</th>
+                <th hrd-i="4">Compras</th>
+                <th hrd-i="5">Rate<br/>Gasto</th>
+                <th hrd-i="6">Inversión</th>
+                <th hrd-i="7">Consumo</th>
+                <th hrd-i="8">Rate<br/>Prec</th>
+                <th hrd-i="9">Por<br/>Vender</th>
+                <th hrd-i="10">Por<br/>Comprar</th>
+                <th hrd-i="11">Cobrado<br/>Gasto</th>
+                <th hrd-i="12">Ganancia</th>
+                <th hrd-i="13">Rate<br/>Gan.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id-row="1">
+                <td>1</td>
+                <td class="pname">Primera fila</td>
+                <td>1709.59</td>
+                <td>3580.34</td>
+                <td>1.48</td>
+                <td>5256.87</td>
+                <td>1358.29</td>
+                <td>2.18</td>
+                <td>1709.59</td>
+                <td>3580.34</td>
+                <td>4845.43</td>
+                <td>5256.87</td>
+                <td>1.29</td>
+            </tr>
+            <tr id-row="2">
+                <td>1</td>
+                <td class="pname">Segunda fila</td>
+                <td class="rojo">1709.59</td>
+                <td class="verde">3580.34</td>
+                <td>1.48</td>
+                <td>5256.87</td>
+                <td>1358.29</td>
+                <td>2.18</td>
+                <td>1709.59</td>
+                <td>3580.34</td>
+                <td>4845.43</td>
+                <td>5256.87</td>
+                <td>1.29</td>
+            </tr>
+            <tr id-row="3">
+                <td>1</td>
+                <td class="pname">Tercera fila</td>
+                <td class="rojo">1709.59</td>
+                <td class="verde">3580.34</td>
+                <td>1.48</td>
+                <td>5256.87</td>
+                <td>1358.29</td>
+                <td>2.18</td>
+                <td>1709.59</td>
+                <td>3580.34</td>
+                <td>4845.43</td>
+                <td>5256.87</td>
+                <td>1.29</td>
+            </tr>
+            <tr id-row="4">
+                <td>1</td>
+                <td class="pname">Cuarta fila</td>
+                <td class="rojo">1709.59</td>
+                <td class="verde">3580.34</td>
+                <td>1.48</td>
+                <td>5256.87</td>
+                <td>1358.29</td>
+                <td>2.18</td>
+                <td>1709.59</td>
+                <td>3580.34</td>
+                <td>4845.43</td>
+                <td>5256.87</td>
+                <td>1.29</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered table-totals">
+      <tbody>
+        <tr>
+          <td></td>
+          <td>Totales:</td>
+          <td>1709.59</td>
+          <td>3580.34</td>
+          <td>1.48</td>
+          <td>5256.87</td>
+          <td>1358.29</td>
+          <td>2.18</td>
+          <td>1709.59</td>
+          <td>3580.34</td>
+          <td>4845.43</td>
+          <td>5256.87</td>
+          <td>1.29</td>
+        </tr>
+      </tbody>
+    </table>
+      
+</div>  
+    
+    <nav>
+      <!-- Add class .pagination-lg for larger blocks or .pagination-sm for smaller blocks-->
+      <ul id="pages" class="pagination">
+        <li><a href="#" aria-label="Previous">&laquo;</a></li>
+        <li class="del"><a href="#">1</a></li>
+        <li class="del"><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li class="active"><a href="#">5</a></li>
+        <li><a href="#">6</a></li>
+        <li><a href="#">7</a></li>
+        <li><a href="#">8</a></li>
+        <li class="del"><a href="#">9</a></li>
+        <li class="del"><a href="#">10</a></li>
+        <li><a href="#" aria-label="Next">&raquo;</a></li>
+      </ul>
+    </nav>
+    
+
+<div class="alert alert-info" role="alert">
+No de encontro ningún item que cumpla las condiciones dadas
+</div>
+ 
+<!--<
+<div id="back-srn">
+  <div id="row-mnu">
+    <ul class="nav nav-pills">
+      <li role="presentation"><a id="vent-row"   href="#">Venta</a></li>
+      <li role="presentation"><a id="prod-row"   href="#">Producto</a></li>
+      <li role="presentation"><a id="edit-row"   href="#">Editar</a></li>
+      <li role="presentation"><a id="del-row"    href="#">Borrar</a></li>
+      <li role="presentation"><a id="marcar-row" href="#">Seleccionar</a></li>
+      <li role="presentation"><a id="close-mnu"  href="#">&nbsp;X&nbsp;</a></li>
+    </ul>
+  </div> 
+</div> 
+-->  
+
+&nbsp;
+&nbsp;
+&nbsp;    
+</div>
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+	<script src="../static/jquery-1.11.3.min.js"></script>
+
+	<!-- Include all compiled plugins (below), or include individual files as needed --> 
+  <script src="../static/bootstrap.js"></script>
+  
+	<script src="../static/viajes.js"></script>
+  
+  
+<script type=text/javascript>
+  var Mnu;
+
+  $(function() 
+    {
+    TotalesRz();
+    
+    $(window).resize( TotalesRz );
+
+    $("#test").bind('click', function() 
+      {
+      $("#form-datos").submit();
+      });
+    
+        
+    $('#mnu-vends ul a').bind('click', function() 
+      {
+      var name = $(this).text();  
+      
+      $("#vendedor").val(name)
+      $('#mnu-vends #name').text(name);
+      $("#form-datos").submit();
+      });
+        
+    
+    $('.main-frame .table-list thead tr th').bind('click', function()
+      {
+      var css      = $(this).attr("class");  
+      var sort_idx = +$(this).attr("name-col");  
+      
+      if( css=='desc' ) sort_idx = -sort_idx
+      
+      $("#sort-idx").val( sort_idx );
+      
+      $("#form-datos").submit();
+      });
+        
+    $('#pages a').bind('click', function()
+      {
+      var num = +this.innerText;
+      if( !num ) return;
+        
+      $("#page-now").val( num );
+      $("#form-datos").submit();
+      });
+                                                  
+    $('#pages li:first-child').bind('click', function()
+      {
+      $("#page-now").val(1);
+      $("#form-datos").submit();
+      });
+                                                  
+    $('#pages li:last-child').bind('click', function()
+      {
+      $("#page-now").val(100000);
+      $("#form-datos").submit();
+      });
+    
+    Mnu = new RowMenu( '.main-frame .table-list tbody tr' );
+     
+    Mnu.AddItem( "Venta", onFilterVenta );
+    Mnu.AddItem( "Producto", onFilterProducto );
+    Mnu.AddItem( "Editar", onEditProd );
+    Mnu.AddItem( "Borrar", onDelProd );
+    Mnu.AddItem( "Marcar", onMarkProd );
+    Mnu.AddItem( "&nbsp;X&nbsp;", onClearFilter );
+
+    });
+  
+
+    function onFilterVenta( $row )
+      {
+      var sViaje = $row.children().eq(1).text();
+      alert("Se oprimio el botón de venta en: '" + sViaje + "'");
+      }
+        
+    function onFilterProducto(ev, id_row)
+      {
+      alert("Se oprimio el botón de producto");
+      }
+        
+  function onEditProd(ev, id_row)
+    {
+    alert("Se oprimio el botón de editar");
+    }
+      
+  function onDelProd(ev, id_row)
+    {
+    alert("Se oprimio el botón de borrar");
+    }
+      
+  function onMarkProd(ev, id_row)
+    {
+    alert("Se oprimio el botón de marcar");
+    }
+    
+  function onClearFilter(ev, id_row)
+    {
+    alert("Se oprimio el botón de Limpiar");
+    }
+    
+  function HideRowMenu() 
+    {
+    $("#vent-row").off( "click" );
+    $("#prod-row").off( "click" );
+    $("#edit-row").off( "click" );
+    $("#del-row").off( "click" );
+    $("#marcar-row").off( "click" );
+    $("#close-mnu").off( "click" );
+      
+    var mnu = $("#row-mnu");
+    mnu.animate({ height: "0px" }, 400, function ()
+      {
+      $(".selrow").removeClass("selrow");
+      
+      var back = $('#back-srn');
+      back.hide();
+      back.append( mnu ); 
+      });
+    }
+  
+  function ShowRowMenu( ev, row )
+    {
+    row.addClass("selrow");
+    //ev.stopPropagation();
+    //if(ev.ctrlKey) return;
+      
+    hW = window.innerHeight;
+    hD = $("body").outerHeight();
+      
+    var css = { display:"block", 
+                top    :"0px", 
+                left   :"0px", 
+                width  :"100%", 
+                height : hD>hW? hD:hW + "px"
+              };
+      
+    $('#back-srn').css( css );
+      
+    var mnu = $("#row-mnu");
+    row.append( mnu ); 
+      
+    mnu.animate({ height: "40px" }, 400);          
+      
+    id_row = +row.attr("id-row");  
+    $("#vent-row").on( "click", function(ev){ onFilterVenta(ev, row) });
+    $("#prod-row").on( "click", function(ev){ onFilterProducto(ev, id_row) });
+    $("#edit-row").on( "click", function(ev){ onEditClick(ev, id_row) });
+    $("#del-row").on( "click", function(ev){ onDelClick(ev, id_row) });
+    $("#marcar-row").on( "click", function(ev){ onMarcClick(ev, id_row) });
+    $("#close-mnu").on( "click", function(ev){ ev.stopPropagation(); HideRowMenu();} );
+    }
+    
+      
+  function TotalesRz()
+    {
+    var lst1 = $('.main-frame .table-list tr:last-child td');
+    var lst2 = $('.main-frame .table-totals tr:last-child td');
+      
+    var wTb1 = $('.main-frame .table-list').outerWidth();
+    $('.main-frame .table-totals').outerWidth(wTb1);  
+      
+    for( var i=0; i<lst1.length; ++i )
+      {
+      //if( i==1 ) continue;  
+      var wCol =  lst1.eq(i).outerWidth()
+      
+      //lst1.eq(i).css('width', w+'px')
+      //lst2.eq(i).css('width', w+'px')
+      lst2.eq(i).outerWidth(wCol)
+      }
+      
+      function GetLinks()
+        {
+        var urlPag='';
+        var urlUpd='';
+        var urlDel='';
+        var base = 'https://www.revolico.com';
+        var links = document.getElementsByTagName("a");
+        for( var i=0; i<links.length; ++i )
+          {
+          var attrs = links[i].attributes;
+          var attr = attrs["data-cy"];
+          if( attr )
+            {
+            var link = base + attrs["href"].value;
+            if( attr.value=='linkToDetails' ) urlPag = link;
+            if( attr.value=='linkToUpdate'  ) urlUpd = link;
+            if( attr.value=='linkToDelete'  ) urlDel = link;
+            }
+          }
+        return urlPag + ';' + urlUpd + ';' urlDel;
+        }
+      
+    }
+</script>
+  
+  </body>
+</html>

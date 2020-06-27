@@ -1,0 +1,13 @@
+{
+    "python.linting.pylintEnabled": false,
+    "python.formatting.provider": "black",
+    "python.pythonPath": "C:\\Users\\Camilo-PC\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
+    "editor.minimap.enabled": false,
+    "editor.renderControlCharacters": true,
+    "editor.tabSize": 4,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 100000,
+    "cSpell.enabled": false,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false
+}

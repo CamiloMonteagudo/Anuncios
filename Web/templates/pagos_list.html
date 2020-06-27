@@ -1,0 +1,206 @@
+{% extends "frame+tab.html" %}
+{% block title %}Listado de Viajes Realizados{% endblock %}
+
+{% block tab_page %}
+<form method="post" id="form-datos" class="toolbar">
+  <label for="filter">Buscar:
+    <input id="filter" name="filter" value="{{dt.filter}}" placeholder="name/viaje/prod/venta">
+  </label>
+
+  <label id="mnu-vends" >Vendedor:
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            <span id="name">{{dt.vendedor}}</span> &nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Todos</a></li>
+          {% for vend in dt.vendedores %}
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">{{vend}}</a></li>
+          {% endfor %}
+        </ul>
+    </div>
+  </label>
+
+  <button type="submit" class="btn btn-default">Buscar</button>
+
+  <input type="hidden" id="sort-attr"  name="sort-attr4"  value="{{dt.sort_attr}}" >
+  <input type="hidden" id="vendedor"   name="vendedor"    value="{{dt.vendedor}}"  >
+  <input type="hidden" id="page-now"   name="page-now4"   value="{{dt.page_now}}"  >
+  <input type="hidden" id="page-items" name="page-items4" value="{{dt.page_items}}" >
+</form>
+
+{% if dt.prods.__len__()>0 %}
+<div class="table-responsive">
+  <table class="table table-bordered table-list">
+    <thead>
+      <tr>
+        <th {{dt.attrs_col("num")    |safe}}>#</th>
+        <th {{dt.attrs_col("VjAbr")  |safe}}>Viaje</th> 
+        <th {{dt.attrs_col("idVent") |safe}}>Venta</th> 
+        <th {{dt.attrs_col("IdPago") |safe}}>Pago</th>
+        <th {{dt.attrs_col("sItem")  |safe}}>Producto</th>
+        <th {{dt.attrs_col("sVend")  |safe}}>Vendedor</th>
+        <th {{dt.attrs_col("count")  |safe}}>&nbsp;&nbsp;Cant</th>
+        <th {{dt.attrs_col("precio") |safe}}>Precio</th>
+        <th {{dt.attrs_col("cuc")    |safe}}>En CUC</th>
+        <th {{dt.attrs_col("cup")    |safe}}>En CUP</th>
+        <th {{dt.attrs_col("Total")  |safe}}>Total Cuc</th>
+        <th {{dt.attrs_col("fecha")  |safe}}>Fecha</th>
+      </tr>
+
+    </thead>
+    <tbody>
+      {% for pg in dt.prods %}
+      <tr id-vj="{{pg.iVj}}" id-Prod="{{pg.idProd}}">
+        <td>{{pg.num}}</td>
+        <td>{{pg.VjAbr|safe}}</td>
+        <td>{{pg.idVent}}</td>
+        <td>{{pg.IdPago}}</td>
+        <td class="pname">{{pg.sItem|safe}}</td>
+        <td>{{pg.sVend}}</td>
+        <td>{{"%.2f"|format(pg.count)}}</td>
+        <td>{{"%.2f"|format(pg.precio)}} {{"%3s"|format(pg.sMnd)}}</td>
+        <td>{% if pg.cuc>0 %}{{"%.2f"|format(pg.cuc)}}{% endif %}</td>
+        <td>{% if pg.cup>0 %}{{"%.2f"|format(pg.cup)}}{% endif %}</td>
+        <td>{{"%.2f"|format(pg.Total)}}</td>
+        <td style="text-align:left;">{{pg.fecha.strftime("%d de %B")}}</td>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <table class="table table-bordered table-totals">
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{dt.foot.desc}}</td>
+        <td></td>
+        <td>{{"%.f"|format(dt.foot.count)}}</td>
+        <td></td>
+        <td>{{"%.2f"|format(dt.foot.cuc)}}</td>
+        <td>{{"%.2f"|format(dt.foot.cup)}}</td>
+        <td>{{"%.2f"|format(dt.foot.Total)}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+</div>
+
+{% if dt.pages.__len__() >1 %}
+<nav>
+  <ul id="pages" class="pagination">
+    <li><a href="#" aria-label="Inicio">&laquo;</a></li>
+    {% for pg in dt.pages %}
+      <li {{pg.css|safe}}><a href="#">{{pg.num}}</a></li>
+    {% endfor %}
+    <li><a href="#" aria-label="Fin">&raquo;</a></li>
+  </ul>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="alert alert-info" role="alert">
+  No de encontro ningún pago que cumpla las condiciones dadas
+</div>
+{% endif %}
+    
+{% endblock %}
+
+{% block scripts %}
+<script type=text/javascript>
+  $(function() 
+    {
+    TotalesRz();
+    $(window).resize( TotalesRz );
+        
+    $('.main-frame .table-list thead tr th').bind('click', function() 
+      {
+      var css       = $(this).attr("class");  
+      var sort_attr = $(this).attr("name-col");  
+      
+      if( css=='asc' ) sort_attr = "-" + sort_attr
+      
+      $("#sort-attr").val( sort_attr );
+      
+      $("#form-datos").submit();
+      });
+        
+    $('#mnu-vends ul a').bind('click', function() 
+      {
+      var name = $(this).text();  
+      
+      $("#vendedor").val(name)
+      $('#mnu-vends #name').text(name);
+      $("#form-datos").submit();
+      });
+        
+    $('#pages a').bind('click', function()
+      {
+      var num = +this.innerText;
+      if( !num ) return;
+        
+      $("#page-now").val( num );
+      $("#form-datos").submit();
+      });
+                                                  
+    $('#pages li:first-child').bind('click', function()
+      {
+      $("#page-now").val(1);
+      $("#form-datos").submit();
+      });
+                                                  
+    $('#pages li:last-child').bind('click', function()
+      {
+      $("#page-now").val(100000);
+      $("#form-datos").submit();
+      });
+    
+      Mnu = new RowMenu( '.main-frame .table-list tbody tr' );
+     
+      Mnu.AddItem( "Viaje"        , onFilterViaje );
+      Mnu.AddItem( "Producto"     , onFilterProd );
+      Mnu.AddItem( "Venta"        , onFilterVenta );
+      Mnu.AddItem( "Editar"       , onEditarPago );
+      Mnu.AddItem( "&nbsp;X&nbsp;", onClearFilter );
+
+      });
+      
+  function onFilterViaje( $row ) { GetDatos( $row, 1 ); }
+  function onFilterProd( $row  ) { GetDatos( $row, 2 ); }
+  function onFilterVenta( $row ) { GetDatos( $row, 3 ); }
+      
+  function onEditarPago($row)
+    {
+    var IdPago  = $row.children().eq(3).text();
+    var IdViaje = $row.attr("id-vj");  
+
+    alert( "OPCION NO IMPLEMENTADA\r\nEditar el pago " + IdPago + " para el viaje " + IdViaje );
+    }
+      
+  function onClearFilter( $row )
+    {
+    $("#filter").val( "" );
+    $("#form-datos").submit();
+    }
+
+  function GetDatos( $row, nSegm )
+    {
+    var sViaje  = $row.children().eq(1).text();
+    var idProd  = $row.attr("id-Prod");
+    var idVenta = $row.children().eq(2).text();
+
+    var segms = "/" + sViaje;
+    if( nSegm > 1 ) segms += "/" + idProd;
+    if( nSegm > 2 ) segms += "/" + idVenta;
+
+    $("#filter").val( segms );
+    $("#form-datos").submit();
+    }
+
+</script>
+{% endblock %}

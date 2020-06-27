@@ -1,0 +1,99 @@
+.main-frame {
+	max-width: 980px;
+	margin-top: 2px;
+  padding-top: 8px;
+	border: 2px solid #aaa;
+	border-radius: 10px;
+  box-shadow: 5px 5px 30px #808080;
+}
+
+.well {
+	position: relative;
+	padding: 6px 6px 6px 6px;
+	margin-bottom: 10px;
+}
+
+.well .title {
+	position: absolute;
+	top: -10px;
+	left: 11px;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+.monto {
+  font-weight: 600;
+  text-align: center;
+  margin: -8px 0px 0px;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.lbval {
+	display: inline-flex;
+	padding-left: 0;
+	margin: 2px;
+}
+
+.lbval li {
+	position: relative;
+	display: block;
+	padding: 2px 2px;
+	margin-bottom: -1px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	font-size: 12px;
+}
+
+.lbval li:first-child {
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	min-width: 90px;
+	text-align: right;
+	background-color: #aaa;
+	font-weight: 550;
+}
+.lbval li:last-child {
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+	text-align: left;
+	min-width: 75px;
+}
+
+.main-frame table thead tr th {
+  background-color: #eee;
+  padding: 4px 6px;
+  font-size: 13px;
+  line-height: 14px;
+}
+
+.main-frame table tbody tr td:nth-child(2) {
+  width: 100%;
+  text-align: left;
+}
+
+.main-frame table tbody tr td {
+	padding: 4px 6px;
+	font-size: 12px;
+	text-align: right;
+}
+
+._main-frame table tbody tr:last-child {
+  background-color: #eee;
+  font-weight: bold;
+}
+
+.main-frame table tbody .totales {
+  background-color: #eee;
+  font-weight: bold;
+}
+
+.main-frame table tbody .totales td:nth-child(2){
+  text-align: right;
+}
+
+
+@media (max-width:410px) {
+  .col-xs-6 { width: 100% }
+  }
+ 
